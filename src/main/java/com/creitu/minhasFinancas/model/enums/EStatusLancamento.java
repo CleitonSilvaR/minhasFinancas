@@ -1,4 +1,4 @@
-package com.creitu.minhasFinancas.model.entity;
+package com.creitu.minhasFinancas.model.enums;
 
 public enum EStatusLancamento {
 	

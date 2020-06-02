@@ -19,6 +19,9 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+import com.creitu.minhasFinancas.model.enums.EStatusLancamento;
+import com.creitu.minhasFinancas.model.enums.ETipoLancamento;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
