@@ -8,16 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Table( name = "usuario", schema = "public")
 @EqualsAndHashCode( of = {"id"})
-@NoArgsConstructor
+@Builder
 @ToString
 public class Usuario {
 	
