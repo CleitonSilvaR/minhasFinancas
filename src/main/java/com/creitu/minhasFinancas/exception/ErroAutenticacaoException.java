@@ -1,9 +1,9 @@
 package com.creitu.minhasFinancas.exception;
 
-public class RegraNegocioException extends RuntimeException {
+public class ErroAutenticacaoException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	
-	public RegraNegocioException(String mensagem) {
+
+	public ErroAutenticacaoException(String mensagem) {
 		super(mensagem);
 	}
 }
