@@ -39,4 +39,8 @@ public class Usuario {
 	
 	@Column(name = "senha", length = 30)
 	@Getter @Setter private String senha;
+
+	public Usuario(Long id) {
+		this.id = id;
+	}
 }

@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+import com.creitu.minhasFinancas.api.dto.LancamentoDTO;
 import com.creitu.minhasFinancas.model.enums.EStatusLancamento;
 import com.creitu.minhasFinancas.model.enums.ETipoLancamento;
 
@@ -69,4 +70,16 @@ public class Lancamento {
 	@Column(name = "status_lancamento")
 	@Enumerated(value = EnumType.STRING)
 	@Getter @Setter private EStatusLancamento statusLancamento;
+
+	public Lancamento(LancamentoDTO lancamentoDTO, Usuario usuario) {
+		
+		this.id 	= lancamentoDTO.getId();
+		this.mes 	= lancamentoDTO.getMes();
+		this.ano 	= lancamentoDTO.getAno();
+		this.valor 		= lancamentoDTO.getValor();
+		this.usuario 	= usuario;
+		this.descricao 	= lancamentoDTO.getDescricao();
+		this.tipoLancamento 	= ETipoLancamento.valueOf(lancamentoDTO.getTipo());
+		this.statusLancamento 	= EStatusLancamento.valueOf(lancamentoDTO.getStatus());
+	}
 }
