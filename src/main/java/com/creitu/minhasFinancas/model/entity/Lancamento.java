@@ -1,5 +1,6 @@
 package com.creitu.minhasFinancas.model.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -40,6 +41,12 @@ public class Lancamento {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "lancamentoSeq")
 	@Column(unique = true, nullable = false)
 	@Getter private Long id;
+	
+	@Column(name = "descricao", length = 500)
+	@Getter @Setter private String descricao;
+	
+	@Column(name = "valor")
+	@Getter @Setter private BigDecimal valor;
 	
 	@Column(name = "mes")
 	@Getter @Setter private Integer mes;
