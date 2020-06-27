@@ -41,7 +41,7 @@ public class Lancamento {
 	@SequenceGenerator(name = "lancamentoSeq", sequenceName = "lancamento_id_multi_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "lancamentoSeq")
 	@Column(unique = true, nullable = false)
-	@Getter private Long id;
+	@Getter @Setter private Long id;
 	
 	@Column(name = "descricao", length = 500)
 	@Getter @Setter private String descricao;

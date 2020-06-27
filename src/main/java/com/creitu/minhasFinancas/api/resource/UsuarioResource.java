@@ -54,7 +54,6 @@ public class UsuarioResource {
 		} catch (RegraNegocioException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-		
 	}
 
 }
