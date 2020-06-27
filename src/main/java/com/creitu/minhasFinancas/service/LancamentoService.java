@@ -3,6 +3,9 @@ package com.creitu.minhasFinancas.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import com.creitu.minhasFinancas.model.entity.Lancamento;
 import com.creitu.minhasFinancas.model.enums.EStatusLancamento;
 
@@ -20,5 +23,6 @@ public interface LancamentoService {
 	
 	void validar( Lancamento lancamento );
 	
-	Optional<Lancamento> obterPorId( Long id );
+	@Query("SELECT l FROM Lancamento l JOIN FETCH l.usuario WHERE l.id = (:_id)")
+	Optional<Lancamento> obterPorId(@Param("_id") Long id );
 }

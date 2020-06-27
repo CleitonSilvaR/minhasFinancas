@@ -2,6 +2,7 @@ package com.creitu.minhasFinancas.model.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -82,4 +84,9 @@ public class Lancamento {
 		this.tipoLancamento 	= ETipoLancamento.valueOf(lancamentoDTO.getTipo());
 		this.statusLancamento 	= EStatusLancamento.valueOf(lancamentoDTO.getStatus());
 	}
+	
+	@PrePersist
+    public void prePersist() {
+        this.dataCadastro = LocalDate.now();
+    }
 }

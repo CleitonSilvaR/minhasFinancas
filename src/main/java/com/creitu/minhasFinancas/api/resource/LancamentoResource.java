@@ -2,6 +2,7 @@ package com.creitu.minhasFinancas.api.resource;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -60,6 +61,15 @@ public class LancamentoResource {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity deletar(@PathVariable("id") Long id) {
+		return lancamentoService.obterPorId(id).map( item -> {
+			lancamentoService.deletar(item);
+			return new ResponseEntity( HttpStatus.NO_CONTENT );
+		}).orElseGet( () -> 
+			new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST) );
 	}
 	
 	private Lancamento converter(LancamentoDTO lancamentoDTO) {

@@ -19,7 +19,7 @@ import com.creitu.minhasFinancas.model.repository.LancamentoRepository;
 import com.creitu.minhasFinancas.service.LancamentoService;
 
 @Service
-public class LancamentoServiceImpl implements LancamentoService{
+public class LancamentoServiceImpl implements LancamentoService {
 	
 	private LancamentoRepository repository;
 	
