@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.creitu.minhasFinancas.api.dto.AtualizaStatusDTO;
 import com.creitu.minhasFinancas.api.dto.LancamentoDTO;
 import com.creitu.minhasFinancas.exception.RegraNegocioException;
 import com.creitu.minhasFinancas.model.entity.Lancamento;
 import com.creitu.minhasFinancas.model.entity.Usuario;
+import com.creitu.minhasFinancas.model.enums.EStatusLancamento;
 import com.creitu.minhasFinancas.service.LancamentoService;
 import com.creitu.minhasFinancas.service.UsuarioService;
 
@@ -80,6 +82,30 @@ public class LancamentoResource {
 				lancamentoService.atualizar(lancamento);
 				
 				return new ResponseEntity(lancamento, HttpStatus.OK);
+			}).orElseGet( () -> 
+				new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST) );
+			
+		} catch (RegraNegocioException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("{id}/atualiza-status")
+	public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AtualizaStatusDTO atualizaStatusDTO) {
+		try {
+			return lancamentoService.obterPorId(id).map(item -> {
+				EStatusLancamento statusSelecionado = EStatusLancamento.valueOf(atualizaStatusDTO.getStatus());
+				
+				if (statusSelecionado == null) {
+					return ResponseEntity.badRequest().body("Não foi possível atualizar o status do lançamento, envie um status válido.");
+				}
+				
+				item.setStatusLancamento(statusSelecionado);
+				lancamentoService.atualizar(item);
+				
+				return new ResponseEntity(item, HttpStatus.OK);
 			}).orElseGet( () -> 
 				new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST) );
 			
