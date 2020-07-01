@@ -23,6 +23,6 @@ public interface LancamentoService {
 	
 	void validar( Lancamento lancamento );
 	
-	@Query("SELECT l FROM Lancamento l JOIN FETCH l.usuario WHERE l.id = (:_id)")
+//	@Query("SELECT l FROM Lancamento l JOIN FETCH l.usuario WHERE l.id = (:_id)")
 	Optional<Lancamento> obterPorId(@Param("_id") Long id );
 }

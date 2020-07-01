@@ -2,7 +2,6 @@ package com.creitu.minhasFinancas.api.resource;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,15 +13,14 @@ import com.creitu.minhasFinancas.exception.RegraNegocioException;
 import com.creitu.minhasFinancas.model.entity.Usuario;
 import com.creitu.minhasFinancas.service.UsuarioService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api/usuarios")
+@RequiredArgsConstructor
 public class UsuarioResource {
 	
-	private UsuarioService usuarioService;
-	
-	public UsuarioResource( UsuarioService usuarioService ) {
-		this.usuarioService = usuarioService;
-	}
+	private final UsuarioService usuarioService;
 	
 	@PostMapping("/autenticar")
 	public ResponseEntity autenticar(@RequestBody UsuarioDTO usuarioDTO ) {

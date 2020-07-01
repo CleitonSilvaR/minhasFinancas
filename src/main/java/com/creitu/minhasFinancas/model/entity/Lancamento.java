@@ -2,7 +2,6 @@ package com.creitu.minhasFinancas.model.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -25,6 +24,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import com.creitu.minhasFinancas.api.dto.LancamentoDTO;
 import com.creitu.minhasFinancas.model.enums.EStatusLancamento;
 import com.creitu.minhasFinancas.model.enums.ETipoLancamento;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,6 +37,7 @@ import lombok.ToString;
 @EqualsAndHashCode( of = {"id"})
 @NoArgsConstructor
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Lancamento {
 
 	@Id
@@ -89,4 +90,10 @@ public class Lancamento {
     public void prePersist() {
         this.dataCadastro = LocalDate.now();
     }
+
+	public Lancamento(String descricao, Integer mes, Integer ano) {
+		this.mes 	= mes;
+		this.ano 	= ano;
+		this.descricao 	= descricao;
+	}
 }

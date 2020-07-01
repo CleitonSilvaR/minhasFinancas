@@ -1,13 +1,18 @@
 package com.creitu.minhasFinancas.api.resource;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.creitu.minhasFinancas.api.dto.LancamentoDTO;
@@ -17,16 +22,37 @@ import com.creitu.minhasFinancas.model.entity.Usuario;
 import com.creitu.minhasFinancas.service.LancamentoService;
 import com.creitu.minhasFinancas.service.UsuarioService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api/lancamentos")
+@RequiredArgsConstructor
 public class LancamentoResource {
 
-	private LancamentoService lancamentoService;
-	private UsuarioService usuarioService;
+	private final LancamentoService lancamentoService;
+	private final UsuarioService usuarioService;
 	
-	public LancamentoResource( LancamentoService lancamentoService, UsuarioService usuarioService ) {
-		this.lancamentoService = lancamentoService;
-		this.usuarioService = usuarioService;
+	@GetMapping
+	public ResponseEntity buscar(
+			@RequestParam(value ="descricao", required = false) String descricao,
+			@RequestParam(value ="mes", required = false) Integer mes,
+			@RequestParam(value ="ano", required = false) Integer ano,
+			@RequestParam("usuario") Long idUsuario
+			) {
+		Lancamento lancamentoFiltro = new Lancamento(descricao, mes, ano);
+		
+		Optional<Usuario> usuario = usuarioService.obterPorId(idUsuario);
+		
+		if (!usuario.isPresent()) {
+			return ResponseEntity.badRequest().body("Não foi possível realizar a consulta. Usuário não encontrado para o Id informado.");
+		} else {
+			lancamentoFiltro.setUsuario(usuario.get());
+		}
+		
+		List<Lancamento> lancamentos = lancamentoService.buscar(lancamentoFiltro);
+		return ResponseEntity.ok(lancamentos);
+
+		
 	}
 	
 	@PostMapping("/salvar")
@@ -50,6 +76,7 @@ public class LancamentoResource {
 			return lancamentoService.obterPorId(id).map(item -> {
 				Lancamento lancamento = converter(lancamentoDto);
 				lancamento.setId(id);
+				lancamento.setDataCadastro(item.getDataCadastro());
 				lancamentoService.atualizar(lancamento);
 				
 				return new ResponseEntity(lancamento, HttpStatus.OK);
