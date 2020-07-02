@@ -1,5 +1,6 @@
 package com.creitu.minhasFinancas.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public interface LancamentoService {
 	
 	void validar( Lancamento lancamento );
 	
-//	@Query("SELECT l FROM Lancamento l JOIN FETCH l.usuario WHERE l.id = (:_id)")
 	Optional<Lancamento> obterPorId(@Param("_id") Long id );
+	
+	BigDecimal obterSaldoPorUsuario( Long id );
 }

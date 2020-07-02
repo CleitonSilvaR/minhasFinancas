@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import com.creitu.minhasFinancas.exception.RegraNegocioException;
 import com.creitu.minhasFinancas.model.entity.Lancamento;
 import com.creitu.minhasFinancas.model.enums.EStatusLancamento;
+import com.creitu.minhasFinancas.model.enums.ETipoLancamento;
 import com.creitu.minhasFinancas.model.repository.LancamentoRepository;
 import com.creitu.minhasFinancas.service.LancamentoService;
 
@@ -97,6 +98,24 @@ public class LancamentoServiceImpl implements LancamentoService {
 	@Override
 	public Optional<Lancamento> obterPorId(Long id) {
 		return repository.findById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal obterSaldoPorUsuario(Long id) {
+		
+		BigDecimal saldoReceitas = repository.obterSaldoPorTipoLancamentoEUsuario(id, ETipoLancamento.RECEITA);
+		BigDecimal saldoDespesas = repository.obterSaldoPorTipoLancamentoEUsuario(id, ETipoLancamento.DESPESA);
+		
+		if (saldoReceitas == null) {
+			saldoReceitas = BigDecimal.ZERO;
+		}
+		
+		if (saldoDespesas == null) {
+			saldoDespesas = BigDecimal.ZERO;
+		}
+		
+		return saldoReceitas.subtract(saldoDespesas);
 	}
 
 }
